@@ -6,10 +6,18 @@ import Search from "./Search";
 export default function PetsList(props) {
 	const [query, setQuery] = useState("");
 	const [type, setType] = useState("");
+
+	const changeSearch = event => setQuery(event.target.value);
+	const changeType = event => setType(event.target.value);
+
 	const pets = props.pets
-		.filter(pet => (type !== "" ? pet.type.includes(type) : pet))
-		.filter(pet => pet.name.toLowerCase().includes(query.toLowerCase()))
+		.filter(
+			pet =>
+				pet.name.toLowerCase().includes(query.toLowerCase()) &&
+				pet.type.includes(type)
+		)
 		.map(pet => <PetItem key={pet.id} pet={pet} />);
+
 	return (
 		<section id='doctors' className='doctor-section pt-140'>
 			<div className='container'>
@@ -19,9 +27,9 @@ export default function PetsList(props) {
 							<h1 className='mb-25 wow fadeInUp' data-wow-delay='.2s'>
 								Fur-ends
 							</h1>
-							<Search search={event => setQuery(event.target.value)} />
+							<Search search={changeSearch} />
 							<br />
-							<Filter filter={event => setType(event.target.value)} />
+							<Filter filter={changeType} />
 						</div>
 					</div>
 				</div>
